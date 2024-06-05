@@ -348,16 +348,23 @@
 
     // **************
     // text and background colors for the homepage jumbotron description
-    jumbotron-color: --ms-jumbotron-color, @ms-jumbotron-color;
-    jumbotron-bg: --ms-jumbotron-bg, @ms-jumbotron-bg; // apply a transparent color
+    jumbotron-color: --ms-jumbotron-color,
+    @ms-jumbotron-color;
+    jumbotron-bg: --ms-jumbotron-bg,
+    @ms-jumbotron-bg; // apply a transparent color
 
     // **************
     // colors for timeline range bar and histograms elements
-    timeline-selected-bg: --ms-timeline-selected-bg, rgba(@ms-primary, 0.05);
-    timeline-histogram-bg: --ms-timeline-histogram-bg, rgba(@ms-primary, 0.5);
-    timeline-histogram-border-color: --ms-timeline-histogram-color, darken(@ms-primary, 10%);
-    timeline-range-bg: --ms-timeline-range-bg, rgba(@ms-main-color, 0.2);
-    timeline-playback-range-bg: --ms-timeline-playback-range-bg, rgba(lighten(@ms-success, 10%), 0.2);
+    timeline-selected-bg: --ms-timeline-selected-bg,
+    rgba(@ms-primary, 0.05);
+    timeline-histogram-bg: --ms-timeline-histogram-bg,
+    rgba(@ms-primary, 0.5);
+    timeline-histogram-border-color: --ms-timeline-histogram-color,
+    darken(@ms-primary, 10%);
+    timeline-range-bg: --ms-timeline-range-bg,
+    rgba(@ms-main-color, 0.2);
+    timeline-playback-range-bg: --ms-timeline-playback-range-bg,
+    rgba(lighten(@ms-success, 10%), 0.2);
 }
 
 // ******************************************
@@ -392,50 +399,54 @@
 // @theme-vars: ruleset of mapstore theme variables, see @ms-theme-vars in variables.less file
 // return all the css variables used by the mapstore theme
 .extract-css-variables(@theme-vars) {
+
     // exclude nested rule sets, eg: @button-default
     @rules: {
         @theme-vars();
-    };
+    }
+
+    ;
+
     each(@rules, {
         @css-var-key: extract(@value, 1);
         @css-var-value: extract(@value, 2);
         @{css-var-key}: @css-var-value;
-    })
-    each(@theme-vars[@button-default], {
-        @css-var-key: extract(@value, 1);
-        @css-var-value: extract(@value, 2);
-        @{css-var-key}: @css-var-value;
-    })
-    each(@theme-vars[@button-primary], {
-        @css-var-key: extract(@value, 1);
-        @css-var-value: extract(@value, 2);
-        @{css-var-key}: @css-var-value;
-    })
-    each(@theme-vars[@button-info], {
-        @css-var-key: extract(@value, 1);
-        @css-var-value: extract(@value, 2);
-        @{css-var-key}: @css-var-value;
-    })
-    each(@theme-vars[@button-success], {
-        @css-var-key: extract(@value, 1);
-        @css-var-value: extract(@value, 2);
-        @{css-var-key}: @css-var-value;
-    })
-    each(@theme-vars[@button-warning], {
-        @css-var-key: extract(@value, 1);
-        @css-var-value: extract(@value, 2);
-        @{css-var-key}: @css-var-value;
-    })
-    each(@theme-vars[@button-danger], {
-        @css-var-key: extract(@value, 1);
-        @css-var-value: extract(@value, 2);
-        @{css-var-key}: @css-var-value;
-    })
-    each(@theme-vars[@button-tray], {
-        @css-var-key: extract(@value, 1);
-        @css-var-value: extract(@value, 2);
-        @{css-var-key}: @css-var-value;
-    })
+
+    }) each(@theme-vars[@button-default], {
+    @css-var-key: extract(@value, 1);
+    @css-var-value: extract(@value, 2);
+    @{css-var-key}: @css-var-value;
+
+}) each(@theme-vars[@button-primary], {
+    @css-var-key: extract(@value, 1);
+    @css-var-value: extract(@value, 2);
+    @{css-var-key}: @css-var-value;
+
+}) each(@theme-vars[@button-info], {
+    @css-var-key: extract(@value, 1);
+    @css-var-value: extract(@value, 2);
+    @{css-var-key}: @css-var-value;
+
+}) each(@theme-vars[@button-success], {
+    @css-var-key: extract(@value, 1);
+    @css-var-value: extract(@value, 2);
+    @{css-var-key}: @css-var-value;
+
+}) each(@theme-vars[@button-warning], {
+    @css-var-key: extract(@value, 1);
+    @css-var-value: extract(@value, 2);
+    @{css-var-key}: @css-var-value;
+
+}) each(@theme-vars[@button-danger], {
+    @css-var-key: extract(@value, 1);
+    @css-var-value: extract(@value, 2);
+    @{css-var-key}: @css-var-value;
+
+}) each(@theme-vars[@button-tray], {
+    @css-var-key: extract(@value, 1);
+    @css-var-value: extract(@value, 2);
+    @{css-var-key}: @css-var-value;
+})
 }
 
 // @theme-vars: ruleset of mapstore theme variables, see @ms-theme-vars in variables.less file
