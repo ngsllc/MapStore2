@@ -120,6 +120,7 @@ module.exports = (...args) => mapArgumentsToObject(args, ({
     devServer,
     resolveModules,
     cesiumBaseUrl,
+    node = {},
     devtool = DEV_TOOL
 }) => ({
     target: "web",
@@ -190,7 +191,12 @@ module.exports = (...args) => mapArgumentsToObject(args, ({
             stream: false,
             http: false,
             https: false,
-            zlib: false
+            zlib: false,
+            crypto: false,
+            fs: false,
+            tls: false,
+            net: false,
+            path: require.resolve("path-browserify") 
         },
         extensions: [".js", ".jsx"],
         alias: assign({}, {

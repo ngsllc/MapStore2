@@ -5,7 +5,7 @@ try {
     console.log('  ICONS GENERATOR - PROCESS START');
     console.log(' -------------------------------------------------------------------------------');
     console.log(' ');
-    const webfontsGenerator = require('vusion-webfonts-generator');
+    const webfontsGenerator = require('@vusion/webfonts-generator');
     const fs = require('fs');
     const path = require('path');
     const svgDirectory = path.join(__dirname, '../web/client/themes/default/svg/');
