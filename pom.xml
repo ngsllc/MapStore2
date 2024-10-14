@@ -19,7 +19,7 @@
         <junit.version>4.13.1</junit.version>
         <mockito-core.version>4.0.0</mockito-core.version>
         <javax.servlet-api.version>3.0.1</javax.servlet-api.version>
-        <ehcache-web.version>2.0.4</ehcache-web.version>
+        <!-- <ehcache-web.version>2.0.4</ehcache-web.version> -->
         <commons-pool.version>1.5.4</commons-pool.version>
         <jaxws-api.version>2.3.1</jaxws-api.version>
         <spring.security.version>5.7.13</spring.security.version>
@@ -89,11 +89,10 @@
                 <version>${junit.version}</version>
             </dependency>
 
-            <!-- gzip compression filter -->
             <dependency>
-                <groupId>net.sf.ehcache</groupId>
-                <artifactId>ehcache-web</artifactId>
-                <version>${ehcache-web.version}</version>
+                <groupId>com.github.ziplet</groupId>
+                <artifactId>ziplet</artifactId>
+                <version>2.4.1</version>
             </dependency>
             <!-- misc -->
             <dependency>
@@ -181,7 +180,7 @@
                 <artifactId>geostore-webapp</artifactId>
                 <version>${geostore-webapp.version}</version>
                 <type>war</type>
-                <scope>runtime</scope>
+                <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>proxy</groupId>
@@ -358,10 +357,10 @@
             <plugin>
                 <groupId>org.owasp</groupId>
                 <artifactId>dependency-check-maven</artifactId>
-                <version>9.0.9</version>
+                <version>10.0.4</version>
                 <configuration>
-                    <skip>true</skip>
-                    <!-- <nvdApiKey>******-****-****-****-*********</nvdApiKey> -->
+                    <skip>false</skip>
+                    <nvdApiKey>f0110be7-67f7-4513-8bee-6bb4466d9e93</nvdApiKey>
                 </configuration>
                 <executions>
                     <execution>
