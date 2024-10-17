@@ -41,7 +41,7 @@ describe('Test common advanced settings', () => {
         const advancedSettingPanel = document.getElementsByClassName("mapstore-switch-panel");
         expect(advancedSettingPanel).toBeTruthy();
         const fields = document.querySelectorAll(".form-group");
-        expect(fields.length).toBe(3);
+        expect(fields.length).toBe(2);
     });
     it('test wms advanced options onChangeServiceProperty autoreload', () => {
         const action = {
@@ -55,7 +55,7 @@ describe('Test common advanced settings', () => {
         const advancedSettingPanel = document.getElementsByClassName("mapstore-switch-panel");
         expect(advancedSettingPanel).toBeTruthy();
         const fields = document.querySelectorAll(".form-group");
-        expect(fields.length).toBe(3);
+        expect(fields.length).toBe(2);
         const autoload = document.querySelectorAll('input[type="checkbox"]')[0];
         const formGroup = document.querySelectorAll('.form-group')[0];
         expect(formGroup.textContent.trim()).toBe('catalog.autoload');
