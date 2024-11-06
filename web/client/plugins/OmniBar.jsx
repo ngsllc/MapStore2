@@ -17,8 +17,7 @@ class OmniBar extends React.Component {
         style: PropTypes.object,
         containerWrapperStyle: PropTypes.object,
         items: PropTypes.array,
-        id: PropTypes.string,
-        title: PropTypes.string
+        id: PropTypes.string
     };
 
     static defaultProps = {
@@ -26,8 +25,7 @@ class OmniBar extends React.Component {
         className: "navbar-dx shadow",
         style: {},
         containerWrapperStyle: {},
-        id: "mapstore-navbar",
-        title: "Portal"
+        id: "mapstore-navbar"
     };
 
     getPanels = () => {
@@ -59,8 +57,6 @@ class OmniBar extends React.Component {
             tool={(props) => <div>{props.children}</div>}
             tools={this.getTools()}
             panels={this.getPanels()}
-            title={this.props.title}
-            renderTitle={true}
         />);
     }
 }
