@@ -8,13 +8,14 @@
 
 import React from 'react';
 import assign from 'object-assign';
-import {endsWith, get, head, isArray, isFunction, isObject, isString, memoize, omit, size} from 'lodash';
+import {endsWith, get, head, isArray, isFunction, isObject, isString, memoize, omit, size, maxBy } from 'lodash';
 import {connect as originalConnect} from 'react-redux';
 import url from 'url';
 import curry from 'lodash/curry';
 import {combineEpics as originalCombineEpics} from 'redux-observable';
 import {combineReducers as originalCombineReducers} from 'redux';
 import {wrapEpics} from "./EpicsUtils";
+import { randomInt } from './RandomUtils';
 
 /**
  * Loads a script inside the current page.
@@ -25,7 +26,7 @@ function loadScript(src) {
         const s = document.createElement('script');
         let r = false;
         s.type = 'text/javascript';
-        s.src = src;
+        s.src = src + "?v=" + randomInt();
         s.async = true;
         s.onerror = function(err) {
             reject(err, s);
@@ -269,15 +270,24 @@ export const getMorePrioritizedContainer = (plugin, override = {}, plugins, prio
     const pluginImpl = plugin.impl;
     return plugins.reduce((previous, current) => {
         const containerName = current.name || current;
-        const pluginPriority = getPriority(plugin, override, containerName);
-        return pluginPriority > previous.priority ? {
+        const currentPlugin = !isArray(pluginImpl[containerName])
+            ? { priority: getPriority(plugin, override, containerName), impl: pluginImpl[containerName] }
+            : maxBy(pluginImpl[containerName]
+                .map((containerConfig) => {
+                    return {
+                        priority: getPriority({ impl: { [containerName]: containerConfig } }, override, containerName),
+                        impl: containerConfig
+                    };
+                }), 'priority')
+            ;
+        return currentPlugin.priority > previous.priority ? {
             plugin: {
                 name: containerName,
                 impl: {
-                    ...(isFunction(pluginImpl[containerName]) ? pluginImpl[containerName](plugin.config) : pluginImpl[containerName]),
+                    ...(isFunction(currentPlugin.impl) ? currentPlugin.impl(plugin.config) : currentPlugin.impl),
                     ...(override[containerName] ?? {})}
             },
-            priority: pluginPriority} : previous;
+            priority: currentPlugin.priority} : previous;
     }, {plugin: null, priority: priority});
 };
 
@@ -617,10 +627,12 @@ export const createPlugin = (name, { component, options = {}, containers = {}, r
  * @returns {Promise} a Promise that resolves to a lazy plugin object.
  */
 export const loadPlugin = (pluginUrl, pluginName) => {
-    return loadScript(pluginUrl)
-        .then(() =>importPlugin(pluginName))
+    const script = document.querySelector(`script[src^="${pluginUrl}"]`);
+    // load the script if not already loaded
+    const load = script ? Promise.resolve() : loadScript(pluginUrl);
+    return load
+        .then(() => importPlugin(pluginName))
         .then((plugin) => ({ name: pluginName, plugin}));
-
 };
 
 /**

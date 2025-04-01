@@ -1232,6 +1232,24 @@ The `terrain` layer of `cesium` type allows using Cesium terrain format complian
 }
 ```
 
+##### Cesium Ion terrain provider
+
+The `terrain` layer of the `cesium-ion` type enables the use of Cesium Ion terrain format-compliant services (i.e., Cesium Ion resources). The options attribute allows for the configuration and access of Ion resources and their associated assets.
+
+```json
+{
+  "type": "terrain",
+  "provider": "cesium-ion",
+  "visibility": true,
+  "options": {
+    "assetId": "", // cesium ion asset id to be requested (mandatory)
+    "accessToken": "", // cesium access token to be used (mandatory)
+    "server": undefined, // resource from the Cesium ion API server. Defaults to https://api.cesium.com when unspecified
+    "credit": "" // optional, additional credit to be displayed along side credit and attribution from ion resource
+  }
+}
+```
+
 #### Elevation
 
 This layer provides information related to elevation based on a provided DTM layer. **It does not provide the terrain profile for 3D visualization**, see [terrain](#terrain) layer type for this feature.
@@ -1644,6 +1662,12 @@ Example:
             "clippingPolygonFeatureId": "feature.id.01",
             "clippingPolygonUnion": false
           }
+        ],
+        "groups": [
+          {
+            "id": "group_01",
+            "visibility": true
+          }
         ]
       }
     ],
@@ -1710,6 +1734,7 @@ View configuration object
 | globeTranslucency.nearDistance | number | when `fadeByDistance` is true it indicates the minimum distance to apply translucency |
 | globeTranslucency.farDistance | number |  when `fadeByDistance` is true it indicates the maximum distance to apply translucency |
 | layers | array | array of layer configuration overrides, default properties override `visibility` and `opacity` |
+| groups | array | array of group configuration overrides, default property overrides `visibility` |
 
 Resource object configuration
 

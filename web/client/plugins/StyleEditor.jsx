@@ -14,7 +14,7 @@ import { branch, compose, lifecycle, toClass } from 'recompose';
 import { createSelector } from 'reselect';
 
 import { updateSettingsParams } from '../actions/layers';
-import { initStyleService, setEditPermissionStyleEditor, toggleStyleEditor } from '../actions/styleeditor';
+import { initStyleService, toggleStyleEditor } from '../actions/styleeditor';
 import HTML from '../components/I18N/HTML';
 import BorderLayout from '../components/layout/BorderLayout';
 import emptyState from '../components/misc/enhancers/emptyState';
@@ -42,9 +42,9 @@ const StyleEditorPanel = ({
     editingAllowedRoles,
     editingAllowedGroups,
     enableSetDefaultStyle,
+    enableEditDefaultStyle,
     canEdit,
-    editorConfig,
-    onSetPermission
+    editorConfig
 }) => {
 
     useEffect(() => {
@@ -52,14 +52,11 @@ const StyleEditorPanel = ({
             styleService,
             {
                 editingAllowedRoles,
-                editingAllowedGroups
+                editingAllowedGroups,
+                enableEditDefaultStyle
             }
         );
     }, []);
-
-    useEffect(() => {
-        onSetPermission(canEdit);
-    }, [canEdit]);
 
     return (
         <BorderLayout
@@ -90,6 +87,7 @@ StyleEditorPanel.propTypes = {
     editingAllowedRoles: PropTypes.array,
     editingAllowedGroups: PropTypes.array,
     enableSetDefaultStyle: PropTypes.bool,
+    enableEditDefaultStyle: PropTypes.bool,
     canEdit: PropTypes.bool,
     editorConfig: PropTypes.object,
     onSetPermission: PropTypes.func
@@ -101,7 +99,8 @@ StyleEditorPanel.defaultProps = {
         'ADMIN'
     ],
     editingAllowedGroups: [],
-    editorConfig: {}
+    editorConfig: {},
+    enableEditDefaultStyle: true
 };
 
 /**
@@ -123,6 +122,8 @@ StyleEditorPanel.defaultProps = {
  * @prop {string[]} cfg.editingAllowedGroups array of user groups allowed to enter in edit mode.
  * When configured, gives the editing permissions to users members of one of the groups listed.
  * @prop {array} cfg.enableSetDefaultStyle enable set default style functionality
+ * @prop {array} cfg.enableEditDefaultStyle enable edit default style functionality.
+ * By default it is `true`, allows editing of default style of the layer
  * @prop {object} cfg.editorConfig contains editor configurations
  * @prop {object} cfg.editorConfig.classification configuration of the classification symbolizer
  * For example adding default editor configuration to the classification
@@ -168,8 +169,7 @@ const StyleEditorPlugin = compose(
         ),
         {
             onInit: initStyleService,
-            onUpdateParams: updateSettingsParams,
-            onSetPermission: setEditPermissionStyleEditor
+            onUpdateParams: updateSettingsParams
         },
         (stateProps, dispatchProps, ownProps) => {
             // detect if the static service has been updated with new information in the global state
