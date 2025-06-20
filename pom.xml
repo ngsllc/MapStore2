@@ -50,6 +50,19 @@
         <commons-collections.version>3.2.2</commons-collections.version>
         <commons-io.version>2.14.0</commons-io.version>
         <cxf-core.version>3.5.10</cxf-core.version>
+
+        <mockito-core.version>4.0.0</mockito-core.version>
+        <slf4j.version>1.7.25</slf4j.version>
+
+        <!-- MapStore‑specific -->
+        <geostore-webapp.version>2.3.0</geostore-webapp.version>
+        <print-lib.version>2.3.1</print-lib.version>
+        <http_proxy.version>1.5.0</http_proxy.version>
+
+        <!-- Commons extras -->
+        <commons-lang-version>2.3</commons-lang-version>
+        <commons-lang3.version>3.17.0</commons-lang3.version>
+        <commons-text.version>1.13.0</commons-text.version>
     </properties>
 
     <modules>
@@ -60,6 +73,13 @@
     <dependencyManagement>
         <dependencies>
             <!-- Spring Framework BOM -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-framework-bom</artifactId>
+                <version>${spring.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-webmvc</artifactId>
@@ -385,6 +405,10 @@
                         <groupId>org.slf4j</groupId>
                         <artifactId>slf4j-log4j12</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-api</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
 
@@ -461,7 +485,14 @@
             <id>geosolutions</id>
             <name>GeoSolutions Repository</name>
             <url>https://maven.geo-solutions.it</url>
-            <snapshots><enabled>true</enabled></snapshots>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>terracotta-repository</id>
+            <name>Terracotta Repository</name>
+            <url>https://repo.terracotta.org/maven2/</url>
         </repository>
         <!-- Spring -->
         <repository>
