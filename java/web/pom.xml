@@ -100,8 +100,7 @@
                         WEB-INF/lib/commons-beanutils-1.8.0.jar,
                         WEB-INF/lib/commons-logging-1.1.1.jar,
                         WEB-INF/lib/jackson-coreutils-1.6.jar,
-                        WEB-INF/lib/stax-ex-1.8.jar,
-                        WEB-INF/lib/spring-security-web-5.7.12.jar
+                        WEB-INF/lib/stax-ex-1.8.jar
                     </packagingExcludes>
                     <overlays>
                         <overlay>
