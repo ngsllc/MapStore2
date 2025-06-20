@@ -489,11 +489,6 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
-        <repository>
-            <id>terracotta-repository</id>
-            <name>Terracotta Repository</name>
-            <url>https://repo.terracotta.org/maven2/</url>
-        </repository>
         <!-- Spring -->
         <repository>
             <id>spring-release</id>
