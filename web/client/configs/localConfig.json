@@ -812,7 +812,6 @@
       {
         "name": "BrandNavbar"
       },
-      { "name": "ManagerMenu" },
       "Login",
       "Language",
       "ScrollTop",
@@ -820,6 +819,7 @@
     ],
     "maps": [
       { "name": "HomeDescription" },
+      { "name": "ResourcesSearch" },
       {
         "name": "ResourcesGrid",
         "cfg": {
@@ -868,8 +868,7 @@
                 {
                   "labelId": "resourcesCatalog.createContext",
                   "type": "link",
-                  "href": "#/context-creator/new",
-                  "disableIf": "{state('userrole') !== 'ADMIN'}"
+                  "href": "#/context-creator/new"
                 }
               ]
             }
@@ -1228,7 +1227,6 @@
       }
     ],
     "manager": [
-      "Header",
       "Redirect",
       "Manager",
       "Home",

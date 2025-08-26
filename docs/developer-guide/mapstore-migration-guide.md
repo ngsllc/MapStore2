@@ -22,6 +22,62 @@ This is a list of things to check if you want to update from a previous version 
 
 ## Migration from 2024.02.00 to 2025.01.00
 
+### New width variable for side panel plugins
+
+Existing projects may need to update the width size of plugins implemented as right side panels.
+
+The new width value is 420 px and is stored in a constant property called `DEFAULT_PANEL_WIDTH` available inside the `web/client/utils/LayoutUtils.js` file.
+
+### Removing Header from the Admin section and deprecating the old UserManager and GroupManagerPlugin
+
+The old `UserManager` and `GroupManager` plugin has been removed and replace with new plugins under the `web/client/plugins/ResourcesCatalog/` folder. Also the `Header` plugin has been removed from Admin/Manager so the configuration in `localConfig.json` should be updated as follow:
+
+```diff
+{
+    "plugins": {
+        "manager": [
+-            "Header",
+             "Redirect",
+             ...
+        ]
+    }
+}
+```
+
+### Changes in the Login plugin and deprecation of ManagerMenu
+
+The `ManagerMenu` plugin has been deprecated. The manager menu items are now handled by the `Login` plugin. The `Login` plugin now includes the `ManagerMenu` functionality, so the `ManagerMenu` plugin should be removed from the `localConfig.json` configuration.
+
+The Login Plugin is refactored along with the Component UserMenu.
+
+The `ManagerMenu` plugin should be removed from the `localConfig.json` configuration:
+
+```diff
+{
+    "plugins": {
+        "common":[
+            ...,
+-           { "name": "ManagerMenu" },
+            ...,
+        ]
+    }
+}
+```
+
+Remove the `ManagerMenu` plugin also from the `rulesmanager` section of `localConfig.json` in case the Rules Manager is configured in the downstream project:
+
+```diff
+{
+    "plugins": {
+        "rulesmanager":[
+            ...,
+-           "ManagerMenu",
+            ...,
+        ]
+    }
+}
+```
+
 ### Language plugin configuration changes
 
 1. The `Language` plugin has been added in the `localConfig.json` for map(desktop):
@@ -61,7 +117,6 @@ This is a list of things to check if you want to update from a previous version 
     +           "name": "Language",
     +           "title": "plugins.Language.title",
     +           "description": "plugins.Language.description",
-    +           "dependencies": ["BrandNavbar"],
     +        }
         ]
     }
@@ -570,9 +625,8 @@ Finally replace the content of the `common` and `maps` (homepage) sections with 
             "Notifications"
         ],
         "maps": [
-            {
-                "name": "HomeDescription"
-            },
+            { "name": "HomeDescription" },
+            { "name": "ResourcesSearch" },
             {
                 "name": "ResourcesGrid",
                 "cfg": {
@@ -621,8 +675,7 @@ Finally replace the content of the `common` and `maps` (homepage) sections with 
                                 {
                                     "labelId": "resourcesCatalog.createContext",
                                     "type": "link",
-                                    "href": "#/context-creator/new",
-                                    "disableIf": "{state('userrole') !== 'ADMIN'}"
+                                    "href": "#/context-creator/new"
                                 }
                             ]
                         }
@@ -740,9 +793,6 @@ Here below all the changes needed related the pluginsConfig.json configuration
 +           "defaultConfig": {
 +               "resourceType": "MAP"
 +           },
-+           "dependencies": [
-+               "BrandNavbar"
-+           ]
 +       }
     ]
 }
