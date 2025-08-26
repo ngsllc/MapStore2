@@ -143,7 +143,6 @@ export const requestResources = ({
     params,
     config
 } = {}, { user } = {}, resourceTypes) => {
-
     const {
         page = 1,
         pageSize = 12,
@@ -155,7 +154,6 @@ export const requestResources = ({
     const sortOrder = sort.includes('-') ? 'desc' : 'asc';
     const f = castArray(query.f || []);
     const categories = getSupportedResourceTypes(resourceTypes, user);
-
     return searchListByAttributes(getFilter({
         q,
         user,

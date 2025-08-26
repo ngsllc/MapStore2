@@ -37,18 +37,22 @@ const resourceTypes = {
     },
     DASHBOARD: {
         icon: { glyph: 'dashboard' },
+
         formatViewerPath: (resource) => {
             return `/dashboard/${resource.id}`;
         }
     },
     GEOSTORY: {
+
         icon: { glyph: 'geostory' },
+
         formatViewerPath: (resource) => {
             return `/geostory/${resource.id}`;
         }
     },
     CONTEXT: {
         icon: { glyph: 'context' },
+
         formatViewerPath: (resource) => {
             return `/context/${resource.name}`;
         }
@@ -92,6 +96,7 @@ export const getGeostoreResourceStatus = (resource = {}, context = {}) => {
             ...(context?.name ? [{
                 type: 'icon',
                 glyph: 'context',
+
                 tooltipId: 'resourcesCatalog.mapUsesContext',
                 tooltipParams: {
                     contextName: context.name
