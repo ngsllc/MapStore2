@@ -39,7 +39,8 @@ describe('DetailsHeader component', () => {
                 '@extras': {
                     info: {
                         icon: {
-                            glyph: 'map'
+                            glyph: 'map',
+                            type: 'glyphicon'
                         },
                         title: 'Resource Title',
                         thumbnailUrl: thumbnail

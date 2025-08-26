@@ -870,8 +870,7 @@
                 {
                   "labelId": "resourcesCatalog.createContext",
                   "type": "link",
-                  "href": "#/context-creator/new",
-                  "resourceType": "CONTEXT"
+                  "href": "#/context-creator/new"
                 }
               ]
             }

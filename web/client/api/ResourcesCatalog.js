@@ -11,7 +11,6 @@ import { castArray } from 'lodash';
 import GeoStoreDAO from './GeoStoreDAO';
 import { addFilters, getFilterByField, splitFilterValue } from '../utils/ResourcesFiltersUtils';
 import { parseResourceProperties } from '../utils/GeostoreUtils';
-import { getSupportedResourceTypes } from '../utils/ResourcesUtils';
 
 const applyDoubleQuote = value => `"${value}"`;
 

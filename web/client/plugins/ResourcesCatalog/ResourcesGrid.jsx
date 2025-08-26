@@ -19,7 +19,6 @@ import { getCatalogResources } from '../../api/persistence';
 import {
     loadingResources,
     resetSearchResources,
-    setResourceTypes,
     updateResources,
     updateResourcesMetadata
 } from './actions/resources';
@@ -59,7 +58,6 @@ import {
  * @prop {string} cfg.footerNodeSelector optional valid query selector for the footer in the page, used to set the position of the panel
  * @prop {string} cfg.targetSelector optional valid query selector for a node used to mount the plugin root component
  * @prop {string} cfg.openInNewTab optional boolean to open the resource in a new tab. Sets the link target to `_blank` when set to `true`
- * @prop {string[]|object} cfg.resourceTypes configuration resource types dictionary list, when object is based on user role to select specific resources Map, Dashboard, Geostory or Context (`anonymous` key represents the default list of resources)
  * @prop {object[]} items this property contains the items injected from the other plugins,
  * using the `containers` option in the plugin that want to inject new menu items.
  * The supported targets are:
@@ -424,14 +422,6 @@ function ResourcesGrid({
 
     const configuredItems = usePluginItems({ items, loadedPlugins }, []);
 
-    const init = useRef(false);
-
-    useEffect(() => {
-        if (!init.current) {
-            init.current = true;
-            onSetResourceTypes(resourceTypes);
-        }
-    });
 
     const updatedLocation = useRef();
     updatedLocation.current = props.location;
@@ -447,11 +437,10 @@ function ResourcesGrid({
         <ConnectedResourcesGrid
             {...props}
             order={order}
-            requestResources={(...args) => getCatalogResources(...args, resourceTypes).toPromise()}
+            requestResources={(...args) => getCatalogResources(...args).toPromise()}
             configuredItems={configuredItems}
             metadata={metadata}
             formatHref={handleFormatHref}
-            availableResourceTypes={resourceTypes}
         />
     );
 }
@@ -473,8 +462,7 @@ const ResourcesGridPlugin = connect(
         setLoading: loadingResources,
         setResources: updateResources,
         setResourcesMetadata: updateResourcesMetadata,
-        onResetSearch: resetSearchResources,
-        onSetResourceTypes: setResourceTypes
+        onResetSearch: resetSearchResources
     }
 )(ResourcesGrid);
 

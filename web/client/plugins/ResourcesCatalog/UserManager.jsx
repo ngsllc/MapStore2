@@ -106,26 +106,26 @@ function requestUsers({ params }) {
                     : [user.groups.group].filter(Boolean)
                 : [],
             '@extras': {
-                status: {
-                    items: [
-                        ...(user.role === 'ADMIN' ? [{
-                            type: 'icon',
-                            tooltipId: 'users.admin',
-                            glyph: 'shield'
-                        }] : []),
-                        ...(user.enabled === true ? [{
-                            type: 'icon',
-                            tooltipId: 'users.active',
-                            glyph: 'ok-sign',
-                            variant: 'success'
-                        }] : [{
-                            type: 'icon',
-                            tooltipId: 'users.inactive',
-                            glyph: 'minus-sign',
-                            variant: 'danger'
-                        }])
-                    ]
-                }
+                items: [
+                    ...(user.role === 'ADMIN' ? [{
+                        type: 'icon',
+                        tooltipId: 'users.admin',
+                        glyph: 'shield'
+                    }] : []),
+                    ...(user.enabled === true ? [{
+                        type: 'icon',
+                        tooltipId: 'users.active',
+                        glyph: 'ok-sign',
+                        iconType: 'glyphicon',
+                        variant: 'success'
+                    }] : [{
+                        type: 'icon',
+                        tooltipId: 'users.inactive',
+                        glyph: 'minus-sign',
+                        iconType: 'glyphicon',
+                        variant: 'danger'
+                    }])
+                ]
             }
         }));
         return {
@@ -153,6 +153,7 @@ function EditUser({ component, onEdit, resource: user }) {
     return (<Component
         onClick={handleClick}
         glyph="wrench"
+        iconType="glyphicon"
         labelId="users.editUser"
         square
     />);
@@ -163,12 +164,13 @@ function DeleteUser({component, onDelete, resource: user, user: myUser }) {
     function handleClick() {
         onDelete(user && user.id);
     }
-    if (user.role === 'GUEST' || myUser?.id === user.id) {
+    if (user.role === 'GUEST' || myUser.id === user.id) {
         return null;
     }
     return (<Component
         onClick={handleClick}
         glyph="trash"
+        iconType="glyphicon"
         labelId="users.deleteUser"
         square
     />);
@@ -210,7 +212,7 @@ function UserManager({
             {
                 path: 'name',
                 target: 'header',
-                icon: { glyph: 'user' }
+                icon: { glyph: 'user', type: 'glyphicon' }
             },
             {
                 path: 'groups',

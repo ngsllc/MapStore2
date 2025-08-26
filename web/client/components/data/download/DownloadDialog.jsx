@@ -154,7 +154,7 @@ const DownloadDialog = ({
         <Dialog id="mapstore-export" draggable={false} modal>
             <span role="header">
                 <span className="modal-title  about-panel-title"><Message msgId="layerdownload.title" /></span>
-                <button onClick={onClose} className="settings-panel-close close">{closeGlyph ? <Glyphicon glyph={closeGlyph}/> : <span>×</span>}</button>
+                <button onClick={this.onClose} className="settings-panel-close close">{this.props.closeGlyph ? <Glyphicon glyph={this.props.closeGlyph}/> : <span>×</span>}</button>
             </span>
             <div role="body">
                 {showLoader

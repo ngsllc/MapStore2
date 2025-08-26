@@ -39,7 +39,6 @@ import { MapLibraries } from '../utils/MapTypeUtils';
 import FlexBox from '../components/layout/FlexBox';
 import Text from '../components/layout/Text';
 import Button from '../components/layout/Button';
-import { getResolutionMultiplier } from '../utils/PrintUtils';
 
 /**
  * Print plugin. This plugin allows to print current map view. **note**: this plugin requires the  **printing module** to work.

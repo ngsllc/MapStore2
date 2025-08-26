@@ -25,7 +25,6 @@ import useResourcePanelWrapper from './hooks/useResourcePanelWrapper';
 import { withResizeDetector } from 'react-resize-detector';
 import { userSelector } from '../../selectors/security';
 import { getCatalogFacets } from '../../api/persistence';
-import { isMenuItemSupportedSupported } from '../../utils/ResourcesUtils';
 
 /**
  * This plugin renders a side panel with configurable input filters

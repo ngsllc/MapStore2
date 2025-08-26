@@ -36,7 +36,7 @@ function Label({item} = {}, { messages }) {
         <FlexBox gap="sm">
             <FlexBox.Fill>
                 <Text component={FlexBox} gap="xs" flexBox centerChildrenVertically wrap>
-                    {item.icon ? <Glyphicon glyph={item.icon}/> : item.image ? <img src={item.image}/> : null}
+                    {item.icon ? <Icon glyph={item.icon}/> : item.image ? <img src={item.image}/> : null}
                     {item.labelId ? getMessageById(messages, item.labelId) : item.label}
                 </Text>
             </FlexBox.Fill>

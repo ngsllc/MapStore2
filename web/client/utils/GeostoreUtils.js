@@ -27,7 +27,7 @@ export const THUMBNAIL_DATA_KEY = '@thumbnailData';
 
 const resourceTypes = {
     MAP: {
-        icon: { glyph: '1-map' },
+        icon: { glyph: '1-map', type: 'glyphicon' },
         formatViewerPath: (resource, context) => {
             if (context?.name) {
                 return `/context/${context.name}/${resource.id}`;

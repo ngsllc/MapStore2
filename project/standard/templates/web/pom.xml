@@ -10,7 +10,6 @@
   <packaging>war</packaging>
   <name>__PROJECTDESCRIPTION__ - WAR</name>
   <url>__REPOURL__</url>
-
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <tomcat.version>9.0.90</tomcat.version>
@@ -26,7 +25,6 @@
     <commons-pool.version>1.5.4</commons-pool.version>
     <jaxws-api.version>2.3.1</jaxws-api.version>
   </properties>
-
   <dependencies>
     <!-- MapStore services -->
     <dependency>
@@ -71,6 +69,14 @@
         <artifactId>javax.servlet-api</artifactId>
         <version>${javax.servlet-api.version}</version>
     </dependency>
+
+    <!-- gzip compression filter -->
+    <dependency>
+        <groupId>net.sf.ehcache</groupId>
+        <artifactId>ehcache-web</artifactId>
+        <version>${ehcache-web.version}</version>
+    </dependency>
+
     <!-- misc -->
     <dependency>
         <groupId>commons-pool</groupId>

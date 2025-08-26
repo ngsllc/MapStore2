@@ -18,6 +18,9 @@ import Spinner from '../../../components/layout/Spinner';
 import ResourceStatus from './ResourceStatus';
 import ResourceCardActionButtons from './ResourceCardActionButtons';
 import ALink from './ALink';
+import moment from 'moment';
+import castArray from 'lodash/castArray';
+import { isObject } from 'lodash';
 import FlexBox from '../../../components/layout/FlexBox';
 import Text from '../../../components/layout/Text';
 import tooltip from '../../../components/misc/enhancers/tooltip';
@@ -164,7 +167,7 @@ const ResourceCardMetadataEntry = ({
             {entry.image?.value
                 ? <><img className="ms-resource-icon-logo" src={entry.image.value} />{' '}</>
                 : entry.icon
-                    ? <><Glyphicon {...entry.icon}/>{' '}</>
+                    ? <><Icon {...entry.icon}/>{' '}</>
                     : null}
             {Array.isArray(value)
                 ? value.map((val, idx) => {
@@ -240,7 +243,7 @@ const ResourceCardGridBody = ({
                     <FlexBox.Fill flexBox>
                         <Text fontSize="md" ellipsis={!headerEntry.showFullContent}>
                             {((icon || headerEntry?.icon) && !loading) && (
-                                <><Glyphicon {...(icon || headerEntry?.icon)} />{' '}</>
+                                <><Icon {...(icon || headerEntry?.icon)} />{' '}</>
                             )}
                             {(loading) && <><Spinner />{' '}</>}
                             {headerEntry?.path ? <ResourceCardMetadataValue
@@ -334,7 +337,7 @@ const ResourceCardListBody = ({
         <FlexBox className="ms-resource-card-body" centerChildrenVertically>
             <div className="ms-resource-card-limit">
                 {(icon && !loading) && (
-                    <Glyphicon {...icon} />
+                    <Icon {...icon} />
                 )}
                 {(loading) && <><Spinner />{' '}</>}
             </div>

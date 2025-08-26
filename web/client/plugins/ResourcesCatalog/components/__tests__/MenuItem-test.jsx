@@ -193,7 +193,8 @@ describe('MenuItem component', () => {
                 type: 'link',
                 labelId: 'labelId',
                 href: '/',
-                glyph: 'heart'
+                glyph: 'heart',
+                iconType: 'glyphicon'
             }}
         />, document.getElementById('container'));
         const link = document.querySelector('a');
