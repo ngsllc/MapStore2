@@ -30,7 +30,7 @@ We have the following instances:
 3. a STABLE instance, which can be accessed <a href="https://mapstore.geosolutionsgroup.com/" target="_blank">here</a>, that gets deployed on demand after each release.
 
 As a user you need to be aware of STABLE and DEV, QA is used internally before a release; for 1 Week it will diverge from STABLE as it is actually anticipating the next stable.
-So, if you want to test latest features use DEV, if you are not that brave use STABLE. You might forget that QA exists unless you are parte of the developers team.
+So, if you want to test latest features use DEV, if you are not that brave use STABLE. You might forget that QA exists unless you are part of the developers team.
 
 ## Download
 
@@ -170,19 +170,19 @@ Here below is a small list of organizations using MapStore either directly or th
 - [CRAIG - France](https://ids.craig.fr/mapstore/#/)
 - Compagnie Nationale du Rhone - France
 - [Urban Brussles (BruGIS) - Belgium](https://gis.urban.brussels/brugis/#/)
+- [Ruhr Regional Association](https://mapstore.geoportal.ruhr/#/)
 - [Atlas Horizon 2020](http://www.atlas-horizon2020.eu/), this is based on GeoNode
 - [Whanganui District Council - New Zealand](https://data.whanganui.govt.nz/mapstore2-whanganuidc/#/)
 - [Otorohanga District Council - New Zealand](https://maps.otodc.govt.nz)
 - [Wairoa District Council - New Zealand](https://maps.wairoadc.govt.nz/#/)
 - [Cleveland Metroparks - USA](https://mapstore.cmparks.net/)
-- [Minerva - Canada](https://cczis.minervaintelligence.com/)
 - [Moldova National GeoPortal](http://www.moldova-map.md/)
 - [Region of Tuscany, Hydrologic Service - Italy](https://webgis.sir.toscana.it/mapstore/#/)
 - Neftex Halliburton - UK
 - Dhiantus - Sweden
 - [LaMMa Consortium - Italy](https://geoportale.lamma.rete.toscana.it/difesa_suolo/#/)
 - [Arno River Authority - Italy](https://geodata.appenninosettentrionale.it/mapstore/)
-- [Austrocontrol - Austria](https://sdimd-free.austrocontrol.at/mapstore/)
+- [Austro Control - Austria](https://maps.austrocontrol.at/mapstore/)
 - Earth-i - UK
 - MapStand - UK
 - [County of Milan - Italy](https://inlineainfrastrutture.cittametropolitana.mi.it/mapstore)
