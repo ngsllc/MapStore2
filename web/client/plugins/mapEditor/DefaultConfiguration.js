@@ -49,6 +49,15 @@ export default {
             }
         },
         {
+            "name": "SecurityPopup",
+            "override": {
+                "MetadataExplorer": {
+                    // this priority is used to ensure that the main component is not included
+                    "priority": 1
+                }
+            }
+        },
+        {
             "name": "TOC",
             "cfg": {
                 "activateQueryTool": false,
@@ -63,7 +72,13 @@ export default {
                 "activateLayerFilterTool": false
             }
         },
-        "AddGroup", "MapFooter",
+        "AddGroup",
+        {
+            "name": "MapFooter",
+            "cfg": {
+                "containerPosition": "footer"
+            }
+        },
         "TOCItemsSettings",
         "MapImport",
         "MapExport",
