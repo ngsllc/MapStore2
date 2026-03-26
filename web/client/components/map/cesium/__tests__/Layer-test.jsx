@@ -11,6 +11,7 @@ import CesiumLayer from '../Layer';
 import expect from 'expect';
 import * as Cesium from 'cesium';
 import { waitFor } from '@testing-library/react';
+import assign from 'object-assign';
 
 import '../../../../utils/cesium/Layers';
 import '../plugins/OSMLayer';
@@ -33,64 +34,14 @@ import ConfigUtils from '../../../../utils/ConfigUtils';
 import MockAdapter from 'axios-mock-adapter';
 import axios from '../../../../libs/ajax';
 
-const tilesetMock = {
-    "asset": {
-        "version": "1.0"
-    },
-    "geometricError": 100,
-    "root": {
-        "boundingVolume": {
-            "region": [
-                -1.3197004795898053,
-                0.6988582109,
-                -1.3196595204101946,
-                0.6988897891,
-                0,
-                20
-            ]
-        },
-        "geometricError": 10,
-        "refine": "REPLACE",
-        "content": {
-            "uri": "file.i3dm"
-        },
-        "children": [
-            {
-                "boundingVolume": {
-                    "region": [
-                        -1.3197004795898053,
-                        0.6988582109,
-                        -1.3196595204101946,
-                        0.6988897891,
-                        0,
-                        20
-                    ]
-                },
-                "geometricError": 0,
-                "content": {
-                    "uri": "tree.i3dm"
-                }
-            }
-        ]
-    },
-    "properties": {
-        "Height": {
-            "minimum": 20,
-            "maximum": 20
-        }
-    }
-};
-
 describe('Cesium layer', () => {
     let map;
     let mockAxios;
-    let originalFromUrl;
     beforeEach((done) => {
         mockAxios = new MockAdapter(axios);
         document.body.innerHTML = '<div id="map"></div><div id="container"></div><div id="container2"></div>';
         map = new Cesium.Viewer("map");
         map.imageryLayers.removeAll();
-        originalFromUrl = Cesium.Cesium3DTileset.fromUrl;
         setTimeout(done);
     });
 
@@ -104,7 +55,6 @@ describe('Cesium layer', () => {
         } catch(e) {}
         /* eslint-enable */
         document.body.innerHTML = '';
-        Cesium.Cesium3DTileset.fromUrl = originalFromUrl;
         setTimeout(done);
     });
     it('missing layer', () => {
@@ -160,7 +110,7 @@ describe('Cesium layer', () => {
         // create layers
         var layer = ReactDOM.render(
             <CesiumLayer type="osm"
-                options={options} map={map} onImageryLayersTreeUpdate={() => {}}/>, document.getElementById("container"));
+                options={options} map={map}/>, document.getElementById("container"));
 
         expect(layer).toExist();
         expect(map.imageryLayers.length).toBe(1);
@@ -177,7 +127,7 @@ describe('Cesium layer', () => {
         // create layer
         var layer = ReactDOM.render(
             <CesiumLayer type="osm"
-                options={options} map={map} onImageryLayersTreeUpdate={() => {}}/>, document.getElementById("container"));
+                options={options} map={map}/>, document.getElementById("container"));
 
         expect(layer).toExist();
         expect(map.imageryLayers.length).toBe(1);
@@ -557,18 +507,18 @@ describe('Cesium layer', () => {
         // create layers
         var layer = ReactDOM.render(
             <CesiumLayer type="osm"
-                options={{}} position={0} map={map} onImageryLayersTreeUpdate={() => {}}/>, document.getElementById("container"));
+                options={{}} position={0} map={map}/>, document.getElementById("container"));
 
         expect(layer).toExist();
         expect(map.imageryLayers.length).toBe(0);
         // not visibile layers are removed from the leaflet maps
         layer = ReactDOM.render(
             <CesiumLayer type="osm"
-                options={{visibility: false}} position={0} map={map} onImageryLayersTreeUpdate={() => {}}/>, document.getElementById("container"));
+                options={{visibility: false}} position={0} map={map}/>, document.getElementById("container"));
         expect(map.imageryLayers.length).toBe(0);
         layer = ReactDOM.render(
             <CesiumLayer type="osm"
-                options={{visibility: true}} position={0} map={map} onImageryLayersTreeUpdate={() => {}}/>, document.getElementById("container"));
+                options={{visibility: true}} position={0} map={map}/>, document.getElementById("container"));
         expect(map.imageryLayers.length).toBe(1);
     });
 
@@ -585,7 +535,7 @@ describe('Cesium layer', () => {
         // create layers
         var layer = ReactDOM.render(
             <CesiumLayer type="wms"
-                options={options} position={0} map={map} onImageryLayersTreeUpdate={() => {}}/>, document.getElementById("container"));
+                options={options} position={0} map={map}/>, document.getElementById("container"));
 
         expect(layer).toExist();
 
@@ -595,7 +545,7 @@ describe('Cesium layer', () => {
             expect(layer.provider.alpha).toBe(1.0);
             layer = ReactDOM.render(
                 <CesiumLayer type="wms"
-                    options={Object.assign({}, options, {opacity: 0.5})} position={0} map={map}/>, document.getElementById("container"));
+                    options={assign({}, options, {opacity: 0.5})} position={0} map={map}/>, document.getElementById("container"));
             expect(layer.provider.alpha).toBe(0.5);
             done();
         }).catch(done);
@@ -623,12 +573,12 @@ describe('Cesium layer', () => {
         };
         const layer1 = ReactDOM.render(
             <CesiumLayer type="wms"
-                options={options1} map={map} position={2} onImageryLayersTreeUpdate={() => {}}/>
+                options={options1} map={map} position={2}/>
             , document.getElementById("container"));
 
         const layer2 = ReactDOM.render(
             <CesiumLayer type="wms"
-                options={options2} map={map} position={1} onImageryLayersTreeUpdate={() => {}}/>
+                options={options2} map={map} position={1}/>
             , document.getElementById("container2"));
 
         waitFor(() => {
@@ -647,7 +597,7 @@ describe('Cesium layer', () => {
         // create layers
         var layer = ReactDOM.render(
             <CesiumLayer type="graticule"
-                options={options} map={map} onImageryLayersTreeUpdate={() => {}}/>, document.getElementById("container"));
+                options={options} map={map}/>, document.getElementById("container"));
 
 
         expect(layer).toExist();
@@ -1175,7 +1125,6 @@ describe('Cesium layer', () => {
                 position={0}
                 map={map}
                 zoom={0}
-                onImageryLayersTreeUpdate={() => {}}
             />, document.getElementById("container"));
 
         expect(layer).toBeTruthy();
@@ -1191,12 +1140,11 @@ describe('Cesium layer', () => {
                 position={0}
                 map={map}
                 zoom={11}
-                onImageryLayersTreeUpdate={() => {}}
             />, document.getElementById("container"));
 
         expect(layer).toBeTruthy();
         // layer removed
-        expect(map.imageryLayers.get(0).show).toBe(false);
+        expect(map.imageryLayers.length).toBe(0);
 
     });
 
@@ -1213,11 +1161,10 @@ describe('Cesium layer', () => {
                 position={0}
                 map={map}
                 zoom={11}
-                onImageryLayersTreeUpdate={() => {}}
             />, document.getElementById("container"));
 
         expect(layer).toBeTruthy();
-        expect(map.imageryLayers.get(0).show).toBe(true);
+        expect(map.imageryLayers.length).toBe(1);
 
         layer = ReactDOM.render(
             <CesiumLayer
@@ -1229,12 +1176,11 @@ describe('Cesium layer', () => {
                 position={0}
                 map={map}
                 zoom={0}
-                onImageryLayersTreeUpdate={() => {}}
             />, document.getElementById("container"));
 
         expect(layer).toBeTruthy();
         // layer removed
-        expect(map.imageryLayers.get(0).show).toBe(false);
+        expect(map.imageryLayers.length).toBe(0);
 
     });
 
@@ -1253,7 +1199,6 @@ describe('Cesium layer', () => {
                 position={0}
                 map={map}
                 zoom={0}
-                onImageryLayersTreeUpdate={() => {}}
             />, document.getElementById("container"));
 
         expect(layer).toBeTruthy();
@@ -1272,7 +1217,6 @@ describe('Cesium layer', () => {
                 position={0}
                 map={map}
                 zoom={0}
-                onImageryLayersTreeUpdate={() => {}}
             />, document.getElementById("container"));
 
         expect(layer).toBeTruthy();
@@ -1374,34 +1318,10 @@ describe('Cesium layer', () => {
         expect(cmp.layer.getTileSet).toBeTruthy();
         expect(cmp.layer.getTileSet()).toBe(undefined);
     });
-    // skipping because randomly fails in CI see https://github.com/geosolutions-it/MapStore2/issues/11691
-    it.skip('should create a 3d tiles layer with and offset applied to the height', (done) => {
-        Cesium.Cesium3DTileset.fromUrl = () => {
-            const tileset = new Cesium.Cesium3DTileset({
-                dynamicScreenSpaceError: false
-            });
-            tileset._root = {
-                updateTransform: () => {},
-                boundingSphere: new Cesium.BoundingSphere(),
-                computedTransform: new Cesium.Matrix4(),
-                updateVisibility: () => {},
-                updateExpiration: () => {},
-                destroy: () => {},
-                tileset: {
-                    _maximumPriority: {},
-                    _minimumPriority: {},
-                    _priorityHolder: {}
-                }
-            };
-            tileset.destroy = () => {};
-            return Promise.resolve(tileset);
-        };
-        mockAxios.onGet().reply(() =>{
-            return [200, tilesetMock];
-        });
+    it('should create a 3d tiles layer with and offset applied to the height', (done) => {
         const options = {
             type: '3dtiles',
-            url: '/test/tileset.json',
+            url: 'base/web/client/test-resources/3dtiles/tileset.json',
             title: 'Title',
             visibility: true,
             heightOffset: 100,
@@ -1431,23 +1351,18 @@ describe('Cesium layer', () => {
                         1, 0, 0, 0,
                         0, 1, 0, 0,
                         0, 0, 1, 0,
-                        100, 0, 0, 1
+                        19, -74, 64, 1
                     ]
                 );
                 done();
             })
             .catch(done);
     });
-    // skipping because randomly fails in CI see https://github.com/geosolutions-it/MapStore2/issues/11691
-    it.skip('should not crash if the heightOffset is not a number', (done) => {
 
-        Cesium.Cesium3DTileset.fromUrl = () => Promise.resolve(new Cesium.Cesium3DTileset());
-        mockAxios.onGet().reply(()=>{
-            return [200, tilesetMock];
-        });
+    it('should not crash if the heightOffset is not a number', (done) => {
         const options = {
             type: '3dtiles',
-            url: 'http://test/tileset.json',
+            url: 'base/web/client/test-resources/3dtiles/tileset.json',
             title: 'Title',
             visibility: true,
             heightOffset: NaN,
@@ -1687,12 +1602,15 @@ describe('Cesium layer', () => {
                 map={map}
             />, document.getElementById('container'));
         expect(cmp).toBeTruthy();
+
         waitFor(() => {
             return expect(cmp.layer).toBeTruthy();
         }).then(() => {
-            expect(cmp.layer._options.url).toEqual('/geoserver/wms');
-            expect(cmp.layer._options.proxy.proxy).toBeFalsy();
-            done();
+            cmp.layer.readyPromise.then(() => {
+                expect(cmp.layer._options.url).toEqual('/geoserver/wms');
+                expect(cmp.layer._options.proxy.proxy).toBeFalsy();
+                done();
+            }).catch(done);
         });
     });
 
@@ -1715,10 +1633,11 @@ describe('Cesium layer', () => {
             />, document.getElementById('container'));
         expect(cmp).toBeTruthy();
         expect(cmp.layer).toBeTruthy();
-        expect(cmp.layer._options.url).toEqual('/geoserver/wms');
-        expect(cmp.layer._options.proxy.proxy).toBeFalsy();
-        done();
-
+        cmp.layer.readyPromise.then(() => {
+            expect(cmp.layer._options.url).toEqual('/geoserver/wms');
+            expect(cmp.layer._options.proxy.proxy).toBeFalsy();
+            done();
+        });
     });
 
     it('should create a bil terrain provider with wms config', (done) => {
@@ -1751,14 +1670,16 @@ describe('Cesium layer', () => {
             return expect(cmp.layer).toBeTruthy();
         })
             .then(() => {
-                cmp.layer.terrainProvider.then((terrainProvider)=>{
-                    expect(terrainProvider._options.url).toEqual('/geoserver/wms');
-                    const proxy = terrainProvider._options.proxy;
+
+                // Wait for the terrainProvider's readyPromise
+                cmp.layer.terrainProvider.readyPromise.then(() => {
+                    expect(cmp.layer.terrainProvider._options.url).toEqual('/geoserver/wms');
+                    const proxy = cmp.layer.terrainProvider._options.proxy;
                     expect(proxy).toBeTruthy(); // Ensure proxy is defined
                     expect(proxy.proxy).toBeFalsy();
                     done(); // Complete the test
-                }).catch(err=>{
-                    done(err);
+                }).catch(err => {
+                    done(err); // In case of any errors
                 });
             })
             .catch(err => {
@@ -1786,13 +1707,11 @@ describe('Cesium layer', () => {
         expect(cmp).toBeTruthy();
         expect(cmp.layer).toBeTruthy();
         expect(cmp.layer.layerName).toBe(options.name);
-        cmp.layer.terrainProvider.then((terrainProvider)=>{
-            expect(terrainProvider._options.url).toEqual('/geoserver/wms');
+        cmp.layer.terrainProvider.readyPromise.then(() => {
+            expect(cmp.layer.terrainProvider._options.url).toEqual('/geoserver/wms');
             expect(cmp.layer.terrainProvider._options.proxy.proxy).toBeFalsy();
-        }).catch((err)=>{
-            done(err);
+            done();
         });
-        done();
     });
 
     it('should create a cesium terrain provider', () => {
