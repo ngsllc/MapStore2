@@ -25,17 +25,14 @@ import tooltip from '../../misc/enhancers/tooltip';
 
 const TDiv = tooltip('div');
 
-const SearchServicesContainer = ({activeTool, searchIcon, bottomMenuServices, services = [], selectedService = -1, onServiceSelect = () => {}}) => {
-    const menuClassName = `search-services-submenus ${bottomMenuServices ? "search-services-submenus-bottom" : ""}`;
+const SearchServicesContainer = ({activeTool, searchIcon, services = [], selectedService = -1, onServiceSelect = () => {}}) => {
     return (
         <>
-            { !bottomMenuServices &&
             <MenuItem className="trigger-item" active={activeTool === "addressSearch"} onClick={() => onServiceSelect(-1)}>
                 <Glyphicon glyph={searchIcon}/>
                 <Message msgId="search.addressSearch"/>
             </MenuItem>
-            }
-            <div className={menuClassName}>
+            <div className="search-services-submenus">
                 <TDiv tooltipPosition="left" tooltipId="search.searchOnAllServices" className={`search-services-item all-services-item ${activeTool === "addressSearch" && selectedService === -1 ? "active" : ""}`}  onClick={() => onServiceSelect(-1)}>
                     <Glyphicon glyph={searchIcon}/>
                     <Message msgId="search.addressSearch"/>
@@ -62,12 +59,10 @@ const SearchServicesContainer = ({activeTool, searchIcon, bottomMenuServices, se
     );
 };
 
-const SearchServicesSelectorMenu = ({activeTool, searchIcon, bottomMenuServices = false, services = [], selectedService = -1, onServiceSelect = () => {}}) => {
-
+const SearchServicesSelectorMenu = ({activeTool, searchIcon, services = [], selectedService = -1, onServiceSelect = () => {}}) => {
     if (services.length === 0) {
         return null;
     }
-
     if (services.length === 1) {
         return (
             <MenuItem active={activeTool === "addressSearch"} onClick={() => onServiceSelect(-1)}>
@@ -81,7 +76,6 @@ const SearchServicesSelectorMenu = ({activeTool, searchIcon, bottomMenuServices 
         activeTool={activeTool}
         searchIcon={searchIcon}
         services={services}
-        bottomMenuServices={bottomMenuServices}
         selectedService={selectedService}
         onServiceSelect={onServiceSelect}
     />);
@@ -189,7 +183,6 @@ export default ({
                     onChangeActiveSearchTool("addressSearch");
                     return;
                 }}
-                bottomMenuServices={searchOptions?.bottomMenuServices}
                 services={searchOptions?.services}
             />
         );
@@ -225,12 +218,6 @@ export default ({
         if (!allowUser && config?.bookmarks?.length === 0 && activeTool === "bookmarkSearch") {
             onChangeActiveSearchTool("addressSearch");
         }
-    }
-
-    // Move custom services at bottom menu
-    if (searchOptions?.bottomMenuServices && showAddressSearchOption && searchMenuOptions.length > 1) {
-        const [topmenu, ...rest] = searchMenuOptions;
-        searchMenuOptions = [...rest, topmenu];
     }
 
     const getConfigButtons = () => {

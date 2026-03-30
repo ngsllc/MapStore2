@@ -10,14 +10,14 @@ import React, { useState } from 'react';
 import { createPlugin } from "../../utils/PluginsUtils";
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { isEmpty } from 'lodash';
-import { getPendingChanges, getResourceWithDataInfoByType } from './selectors/save';
+import { isEmpty, omit } from 'lodash';
+import { getPendingChanges } from './selectors/save';
 import Persistence from '../../api/persistence';
 import { setSelectedResource } from './actions/resources';
 import { mapSaveError, mapSaved, mapInfoLoaded, configureMap } from '../../actions/config';
 import { userSelector } from '../../selectors/security';
-import { replace } from 'connected-react-router';
-import { parseResourceProperties, parseClonedResourcePayload, computeSaveResource, computePendingChanges } from '../../utils/GeostoreUtils';
+import { push } from 'connected-react-router';
+import { parseResourceProperties } from '../../utils/GeostoreUtils';
 import { getResourceInfo } from '../../utils/ResourcesUtils';
 import { storySaved, geostoryLoaded, setResource as setGeoStoryResource, setCurrentStory, saveGeoStoryError } from '../../actions/geostory';
 import { dashboardSaveError, dashboardSaved, dashboardLoaded } from '../../actions/dashboard';
@@ -25,7 +25,19 @@ import { convertDependenciesMappingForCompatibility } from '../../utils/WidgetsU
 import { show } from '../../actions/notifications';
 import InputControl from './components/InputControl';
 import ConfirmDialog from '../../components/layout/ConfirmDialog';
-import { setPendingChanges as setPendingChangesAction } from './actions/save';
+
+function parseResourcePayload(resource, { name, resourceType } = {}) {
+    return {
+        ...resource,
+        permission: undefined,
+        category: resourceType,
+        metadata: {
+            ...resource?.metadata,
+            name,
+            attributes: omit(resource?.metadata?.attributes || {}, ['thumbnail', 'details'])
+        }
+    };
+}
 
 /**
  * Plugin to create/clone a resource. Saves the new resource using the persistence API.
@@ -36,32 +48,32 @@ import { setPendingChanges as setPendingChangesAction } from './actions/save';
  */
 function SaveAs({
     pendingChanges,
-    resourceInfo,
     resourceType,
     onSelect,
     onSuccess,
     onError,
     user,
-    onReplace,
+    onPush,
     onNotification,
     component,
-    menuItem,
-    setPendingChanges
+    menuItem
 }) {
+
+    const saveResource = pendingChanges.saveResource;
 
     const [loading, setLoading] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [name, setName] = useState('');
-    const changes = !isEmpty(pendingChanges);
+
+    const changes = !isEmpty(pendingChanges.changes);
 
     function handleSaveAs() {
-        const saveResource = computeSaveResource(resourceInfo.initialResource, resourceInfo.resource, resourceInfo.data);
         if (saveResource) {
             setLoading(true);
             const api = Persistence.getApi();
             const contextId = saveResource?.metadata?.attributes?.context;
             Promise.all([
-                api.createResource(parseClonedResourcePayload(saveResource, { name, resourceType })).toPromise()
+                api.createResource(parseResourcePayload(saveResource, { name, resourceType })).toPromise()
                     .then((resourceId) => api.getResource(resourceId, { includeAttributes: true, withData: false }).toPromise()),
                 contextId !== undefined
                     ? api.getResource(contextId, { withData: false }).toPromise()
@@ -70,7 +82,6 @@ function SaveAs({
                 .then(([resource, context]) => parseResourceProperties({ ...resource, category: { name: resourceType } }, context))
                 .then((resource) => {
                     onSelect(resource);
-                    setPendingChanges({});
                     onSuccess(resourceType, resource, saveResource?.data);
                     onNotification({
                         id: 'RESOURCE_SAVE_SUCCESS',
@@ -81,7 +92,7 @@ function SaveAs({
                     setName('');
                     const { viewerPath } = getResourceInfo(resource);
                     if (viewerPath) {
-                        onReplace(viewerPath);
+                        onPush(viewerPath);
                     }
                 })
                 .catch((error) => {
@@ -106,18 +117,17 @@ function SaveAs({
 
     function handleShowModal() {
         // use the currently edited name and fallback to empty name
-        const { name: pendingName } = computePendingChanges(resourceInfo.initialResource, resourceInfo.resource, resourceInfo.data) || {};
-        setName(pendingName || '');
+        setName(pendingChanges?.changes?.name || '');
         setShowModal(true);
     }
 
-    if (!((resourceInfo?.resource?.canCopy || resourceInfo?.resource?.canEdit) && user)) {
+    if (!((pendingChanges?.resource?.canCopy || pendingChanges?.resource?.canEdit) && user)) {
         return null;
     }
 
-    const hideIndicator = !!resourceInfo?.resource?.canEdit;
+    const hideIndicator = !!pendingChanges?.resource?.canEdit;
 
-    const messagePrefix = resourceInfo?.initialResource?.id === undefined
+    const messagePrefix = pendingChanges?.initialResource?.id === undefined
         ? 'createNewResource'
         : 'copyResource';
 
@@ -158,14 +168,12 @@ function SaveAs({
 const saveAsConnect = connect(
     createStructuredSelector({
         user: userSelector,
-        resourceInfo: getResourceWithDataInfoByType,
         pendingChanges: getPendingChanges
     }),
     {
         onNotification: show,
-        onReplace: replace,
+        onPush: push,
         onSelect: setSelectedResource,
-        setPendingChanges: setPendingChangesAction,
         onSuccess: (resourceType, resource, data) => {
             return (dispatch) => {
                 if (resourceType === 'MAP') {

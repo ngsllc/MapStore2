@@ -21,6 +21,8 @@ import {
     RESET_SEARCH_USER_GROUPS
 } from '../actions/usergroups';
 
+import assign from 'object-assign';
+
 function usergroups(state = {}, action) {
     switch (action.type) {
     case UPDATE_USER_GROUPS: {
@@ -94,15 +96,15 @@ function usergroups(state = {}, action) {
             ...action.group
         } : action.group;
         if (state.currentGroup && action.group && state.currentGroup.id === action.group.id ) {
-            return Object.assign({}, state, {
-                currentGroup: Object.assign({}, state.currentGroup, {
+            return assign({}, state, {
+                currentGroup: assign({}, state.currentGroup, {
                     status: action.status,
                     ...action.group
                 })}
             );
             // this to catch user loaded but window already closed
         } else if (action.status === "loading" || action.status === "new" || !action.status) {
-            return Object.assign({}, state, {
+            return assign({}, state, {
                 currentGroup: newGroup
             });
         }
@@ -112,16 +114,16 @@ function usergroups(state = {}, action) {
     case EDITGROUPDATA: {
         let k = action.key;
         let currentGroup = state.currentGroup;
-        currentGroup = Object.assign({}, currentGroup, {[k]: action.newValue} );
-        return Object.assign({}, state, {
-            currentGroup: Object.assign({}, {...currentGroup, status: "modified"})
+        currentGroup = assign({}, currentGroup, {[k]: action.newValue} );
+        return assign({}, state, {
+            currentGroup: assign({}, {...currentGroup, status: "modified"})
         });
     }
     case UPDATEGROUP: {
         let currentGroup = state.currentGroup;
 
-        return Object.assign({}, state, {
-            currentGroup: Object.assign({}, {
+        return assign({}, state, {
+            currentGroup: assign({}, {
                 ...currentGroup,
                 ...action.group,
                 status: action.status,
@@ -132,11 +134,11 @@ function usergroups(state = {}, action) {
 
     case DELETEGROUP: {
         if (action.status === "deleted" || action.status === "cancelled") {
-            return Object.assign({}, state, {
+            return assign({}, state, {
                 deletingGroup: null
             });
         }
-        return Object.assign({}, state, {
+        return assign({}, state, {
             deletingGroup: {
                 id: action.id,
                 status: action.status,
@@ -147,13 +149,13 @@ function usergroups(state = {}, action) {
     case SEARCHUSERS: {
         switch (action.status) {
         case "loading": {
-            return Object.assign({}, state, {
+            return assign({}, state, {
                 availableUsersError: null,
                 availableUsersLoading: true
             });
         }
         case "success": {
-            return Object.assign({}, state, {
+            return assign({}, state, {
                 availableUsersError: null,
                 availableUsersLoading: false,
                 availableUsers: action.users,
@@ -161,7 +163,7 @@ function usergroups(state = {}, action) {
             });
         }
         case "error": {
-            return Object.assign({}, state, {
+            return assign({}, state, {
                 availableUsersError: action.error,
                 availableUsersLoading: false
             });
