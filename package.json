@@ -96,7 +96,7 @@
     "redux-devtools-dock-monitor": "1.1.2",
     "redux-devtools-log-monitor": "1.3.0",
     "redux-mock-store": "1.2.2",
-    "simple-git": "2.20.1",
+    "simple-git": "^3.36.0",
     "style-loader": "2.0.0",
     "terser": "5.18.1",
     "url-loader": "0.5.7",
@@ -133,7 +133,7 @@
     "@turf/polygon-to-linestring": "4.1.0",
     "@znemz/cesium-navigation": "4.0.0",
     "assert": "2.0.0",
-    "axios": "0.30.2",
+    "axios": "^1.15.0",
     "@babel/standalone": "7.23.9",
     "bootstrap": "3.4.1",
     "buffer": "6.0.3",
@@ -299,5 +299,10 @@
     "json:write": "prettier --ignore-path .prettierignore --write \"./**/*.json\""
   },
   "author": "GeoSolutions",
-  "license": "BSD-2-Clause"
+  "license": "BSD-2-Clause",
+  "overrides": {
+    "nth-check": ">=2.0.1",
+    "postcss": ">=8.5.9",
+    "webpack-dev-server": ">=5.2.2"
+  }
 }
