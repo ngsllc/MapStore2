@@ -70,7 +70,8 @@ const createLayer = (options, map) => {
         id: options?.id,
         map: map,
         opacity: options.opacity,
-        queryable: options.queryable === undefined || options.queryable
+        queryable: options.queryable === undefined || options.queryable,
+        styleRules: options?.style?.body?.rules || []
     });
     let loader;
     let loadingBbox;
@@ -182,11 +183,17 @@ Layers.registerType('wfs', {
         if (
             needsReload(oldOptions, newOptions) ||
             oldOptions.forceProxy !== newOptions.forceProxy ||
-            !isEqual(oldOptions.security, newOptions.security)
+            !isEqual(oldOptions.security, newOptions.security) ||
+            !isEqual(oldOptions.requestRuleRefreshHash, newOptions.requestRuleRefreshHash)
         ) {
             return createLayer(newOptions, map);
         }
         if (layer?.styledFeatures && !isEqual(newOptions.style, oldOptions.style)) {
+            // update style rules here
+            if (!isEqual(newOptions?.style?.body?.rules, oldOptions?.style?.body?.rules)) {
+                let styleRules = newOptions?.style?.body?.rules || [];
+                layer.styledFeatures._setStyleRules(styleRules);
+            }
             layerToGeoStylerStyle(newOptions)
                 .then((style) => {
                     getStyle(applyDefaultStyleToVectorLayer({
