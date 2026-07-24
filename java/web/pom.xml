@@ -67,6 +67,46 @@
             <groupId>javax.xml.ws</groupId>
             <artifactId>jaxws-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>net.sf.ehcache.internal</groupId>
+            <artifactId>ehcache-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk18on</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpkix-jdk18on</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>jakarta.mail</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-multipart-provider</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -92,11 +132,44 @@
                         <overlay>
                             <groupId>it.geosolutions.geostore</groupId>
                             <artifactId>geostore-webapp</artifactId>
-                            <excludes>WEB-INF/classes/geostore-spring-security.xml</excludes>
+                            <excludes>
+                                <exclude>WEB-INF/classes/geostore-spring-security.xml</exclude>
+                                <exclude>WEB-INF/lib/bcpkix-jdk15on-1.64.jar</exclude>
+                                <exclude>WEB-INF/lib/bcprov-jdk15on-1.68.jar</exclude>
+                                <exclude>WEB-INF/lib/commons-beanutils-1.9.4.jar</exclude>
+                                <exclude>WEB-INF/lib/commons-fileupload-1.5.jar</exclude>
+                                <exclude>WEB-INF/lib/commons-lang3-3.17.0.jar</exclude>
+                                <exclude>WEB-INF/lib/cxf-core-3.5.7.jar</exclude>
+                                <exclude>WEB-INF/lib/ehcache-2.10.6.jar</exclude>
+                                <exclude>WEB-INF/lib/jackson-annotations-2.16.1.jar</exclude>
+                                <exclude>WEB-INF/lib/jackson-core-2.16.1.jar</exclude>
+                                <exclude>WEB-INF/lib/jackson-databind-2.16.1.jar</exclude>
+                                <exclude>WEB-INF/lib/jakarta.mail-1.6.5.jar</exclude>
+                                <exclude>WEB-INF/lib/log4j-1.2-api-2.19.0.jar</exclude>
+                                <exclude>WEB-INF/lib/log4j-api-2.19.0.jar</exclude>
+                                <exclude>WEB-INF/lib/log4j-core-2.19.0.jar</exclude>
+                                <exclude>WEB-INF/lib/log4j-slf4j-impl-2.19.0.jar</exclude>
+                                <exclude>WEB-INF/lib/postgresql-42.3.9.jar</exclude>
+                                <exclude>WEB-INF/lib/resteasy-client-3.13.2.Final.jar</exclude>
+                                <exclude>WEB-INF/lib/resteasy-multipart-provider-3.13.2.Final.jar</exclude>
+                                <exclude>WEB-INF/lib/spring-security-config-5.7.13.jar</exclude>
+                                <exclude>WEB-INF/lib/spring-security-core-5.7.13.jar</exclude>
+                                <exclude>WEB-INF/lib/spring-security-crypto-5.7.13.jar</exclude>
+                                <exclude>WEB-INF/lib/spring-security-ldap-5.7.13.jar</exclude>
+                                <exclude>WEB-INF/lib/spring-security-oauth2-core-5.7.13.jar</exclude>
+                                <exclude>WEB-INF/lib/spring-security-web-5.7.13.jar</exclude>
+                                <exclude>WEB-INF/lib/spring-web-5.3.39.jar</exclude>
+                            </excludes>
                         </overlay>
                         <overlay>
                             <groupId>proxy</groupId>
                             <artifactId>http_proxy</artifactId>
+                            <excludes>
+                                <exclude>WEB-INF/lib/commons-fileupload-1.5.jar</exclude>
+                                <exclude>WEB-INF/lib/log4j-api-2.19.0.jar</exclude>
+                                <exclude>WEB-INF/lib/log4j-core-2.19.0.jar</exclude>
+                                <exclude>WEB-INF/lib/log4j-slf4j-impl-2.19.0.jar</exclude>
+                            </excludes>
                         </overlay>
                     </overlays>
                 </configuration>
