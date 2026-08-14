@@ -121,6 +121,7 @@ export const updateMapLayoutEpic = (action$, store) =>
                 get(state, "controls.userExtensions.enabled") && { right: mapLayout.right.md } || null,
                 get(state, "controls.mapTemplates.enabled") && { right: mapLayout.right.md } || null,
                 get(state, "controls.mapCatalog.enabled") && { right: mapLayout.right.md } || null,
+                get(state, "controls.chatbot.enabled") && { right: mapLayout.right.md } || null,
                 mapInfoEnabledSelector(state) && isMapInfoOpen(state) && !isMouseMoveIdentifyActiveSelector(state) && {right: mapLayout.right.md} || null
             ].filter(panel => panel)) || {right: 0};
 
